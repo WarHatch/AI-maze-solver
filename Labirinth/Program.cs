@@ -10,7 +10,7 @@ namespace Labirinth
     {
         static readonly Random rnd = new Random();
 
-        static void Solve(ref Wanderer agent, ref Board board, Stopwatch watch)
+        static void Solve(Wanderer agent, Board board, Stopwatch watch)
         {
             if (board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y))
                 return;
@@ -23,25 +23,20 @@ namespace Labirinth
             //    Console.ReadKey();
             //}
 
-            // Board printing
-            string boardView = board.Print();
-            Console.WriteLine(boardView);
+            //// Board printing
+            //string boardView = board.Print();
+            //Console.WriteLine(boardView);
 
             Dictionary<int, Point> goodDestinations = agent.GoodDestinations(board);
             while (goodDestinations.Count > 0)
             {
-                // Manual Pop() of the next destination
+                // Manual Pop of the next destination
                 var nextDestination = goodDestinations.First();
                 goodDestinations.Remove(nextDestination.Key);
 
-                // Random nextDestination
-                //var chosenPath = rnd.Next(0, goodDestinations.Count);
-                //var nextDestination = goodDestinations.ElementAt<Point>(chosenPath);
-                //goodDestinations.RemoveAt(chosenPath);
-
                 agent.MoveTo(board, nextDestination.Value, nextDestination.Key);
 
-                Solve(ref agent, ref board, watch);
+                Solve(agent, board, watch);
                 if (board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y))
                     return;
             }
@@ -55,10 +50,10 @@ namespace Labirinth
             var board = new Board("../../Maze.txt");
             var agent = new Wanderer(ref board, new Point(1, 1));
 
-            Stopwatch watch = Stopwatch.StartNew();
-            Solve(ref agent, ref board, watch);
+            //Stopwatch watch = Stopwatch.StartNew();
+            Solve(agent, board, null);
             if (!board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y)) Console.WriteLine("[X] Unable to find a solution.");
-            else Console.WriteLine(board.Print());
+            else Console.WriteLine("[V] Found solution: \n" + board.Print());
             Console.ReadKey();
         }
     }
