@@ -12,6 +12,9 @@ namespace Labirinth
 
         static void Solve(Wanderer agent, Stopwatch watch)
         {
+            if (agent.Board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y))
+                return;
+
             //// Benchmarking
             //if (watch.IsRunning && knight.MoveLog.Count > 100000)
             //{
@@ -37,34 +40,24 @@ namespace Labirinth
                 //goodDestinations.RemoveAt(chosenPath);
 
                 agent.MoveTo(nextDestination.Value, nextDestination.Key);
-                if (agent.Board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y))
-                    return;
 
                 Solve(agent, watch);
                 if (agent.Board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y))
                     return;
             }
-            try
-            {
-                agent.Backtrack();
-            }
-            catch (InvalidOperationException)
-            {
-                agent.MoveLog.Add("InvalidOperationException: Possibility that no more moves are available");
-                Console.WriteLine(agent.MoveLog.Last());
-            }
+            agent.Backtrack();
             return;
         }
 
         static void Main(string[] args)
         {
             var board = new Board("../../Maze.txt");
-            var knight = new Wanderer(board, new Point(0, 0));
+            var agent = new Wanderer(board, new Point(1, 1));
 
             Stopwatch watch = Stopwatch.StartNew();
-            Solve(knight, watch);
-            if (!knight.Board.AllSpacesTaken()) Console.WriteLine("[X] Unable to find a solution.");
-            else Console.WriteLine(knight.Board.Print());
+            Solve(agent, watch);
+            if (!agent.Board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y)) Console.WriteLine("[X] Unable to find a solution.");
+            else Console.WriteLine(agent.Board.Print());
             Console.ReadKey();
         }
     }

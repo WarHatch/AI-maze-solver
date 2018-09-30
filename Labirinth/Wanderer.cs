@@ -65,16 +65,19 @@ namespace Labirinth
             for (int manueverIndex = 0; manueverIndex < manuevers.Length; manueverIndex++)
             {
                 var potentialPos = CurrentPosition + manuevers[manueverIndex];
-                if (Board.Cells[potentialPos.Y, potentialPos.X] == 0)
+                if (Board.Inside(potentialPos.X, potentialPos.Y))
                 {
+                    if (Board.Cells[potentialPos.Y, potentialPos.X] == 0)
+                    {
                         goodDestinations.Add(manueverIndex, potentialPos);
-                }
-                else
-                {
-                    if (Board.Cells[potentialPos.Y, potentialPos.X] == 1)
-                        FakeMove(potentialPos, manueverIndex, "Siena");
+                    }
                     else
-                        FakeMove(potentialPos, manueverIndex, "Siulas.");
+                    {
+                        if (Board.Cells[potentialPos.Y, potentialPos.X] == 1)
+                            FakeMove(potentialPos, manueverIndex, "Siena");
+                        else
+                            FakeMove(potentialPos, manueverIndex, "Siulas.");
+                    }
                 }
             }
 
