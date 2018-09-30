@@ -8,7 +8,7 @@ namespace Labirinth
     class Wanderer
     {
         private Stack<Move> moveStack;
-        private readonly Point[] manuevers = {new Point(0 , 1), new Point(1, 0), new Point(-1, 0), new Point(0, -1)};
+        private readonly Point[] manuevers = {new Point(0, 1), new Point(1, 0), new Point(0, -1), new Point(-1, 0) };
 
         public Wanderer(ref Board board, Point startingPosition)
         {
@@ -93,7 +93,7 @@ namespace Labirinth
             Console.WriteLine(MoveLog.Last());
         }
 
-        public string printMoves()
+        public string PrintTravelRules()
         {
             StringBuilder printedMoves = new StringBuilder();
 
@@ -101,7 +101,20 @@ namespace Labirinth
             moveStack.CopyTo(moves, 0);
             for (int i = moveStack.Count - 2; i >= 0; i--)
             {
-                printedMoves.Append("R" + moves[i].rule + ", ");
+                printedMoves.Append("R" + (moves[i].rule + 1) + ", ");
+            }
+            return printedMoves.ToString();
+        }
+
+        public string PrintTravelPoints()
+        {
+            StringBuilder printedMoves = new StringBuilder();
+
+            Move[] moves = new Move[moveStack.Count];
+            moveStack.CopyTo(moves, 0);
+            for (int i = moveStack.Count - 2; i >= 0; i--)
+            {
+                printedMoves.Append(moves[i].to.ToString() + ", ");
             }
             return printedMoves.ToString();
         }

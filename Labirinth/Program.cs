@@ -56,7 +56,8 @@ namespace Labirinth
             else
             {
                 Console.WriteLine("[V] Found solution: \n" + board.Print());
-                Console.WriteLine("Travel rules: " + agent.printMoves());
+                Console.WriteLine("Travel rules: " + agent.PrintTravelRules());
+                Console.WriteLine("Travel points: " + agent.PrintTravelPoints());
             }
             Console.ReadKey();
         }
