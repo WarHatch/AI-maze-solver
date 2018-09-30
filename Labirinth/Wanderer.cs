@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Labirinth
 {
     class Wanderer
     {
-        private Stack<Point> moveStack;
+        private Stack<Move> moveStack;
         private readonly Point[] manuevers = {new Point(0 , 1), new Point(1, 0), new Point(-1, 0), new Point(0, -1)};
 
         public Wanderer(ref Board board, Point startingPosition)
         {
-            moveStack = new Stack<Point>(board.xSize * board.ySize / 2);
+            moveStack = new Stack<Move>(board.xSize * board.ySize / 2);
 
             //MoveTo
-            moveStack.Push(startingPosition);
+            moveStack.Push(new Move(startingPosition, 0));
             board.PlaceOn(startingPosition, moveStack.Count);
-            Console.WriteLine("Pradine padetis: " + CurrentPosition.ToString() + ". L=" + board.Cells[startingPosition.Y, startingPosition.X]);
+            Console.WriteLine("Pradine padetis: " + CurrentPosition.ToString() + ". L=" + MoveCounter());
         }
 
-        public Point CurrentPosition { get => moveStack.Peek(); }
+        public Point CurrentPosition { get => moveStack.Peek().to; }
         public List<string> MoveLog { get; } = new List<string>();
 
-        private string NewLogMargin(int amount) => new string('-', moveStack.Count);
+        private string NewLogMargin() => new string('-', moveStack.Count - 1);
         private string MoveCounter() => (moveStack.Count + 1).ToString();
 
         public void MoveTo(Board board, Point newPosition, int manueverIndex)
@@ -31,7 +32,7 @@ namespace Labirinth
             MoveLog.Add(CreateLog(newPosition, manueverIndex, appendix));
             Console.WriteLine(MoveLog.Last());
 
-            moveStack.Push(newPosition);
+            moveStack.Push(new Move(newPosition, manueverIndex));
             board.PlaceOn(newPosition, moveStack.Count);
         }
 
@@ -39,19 +40,19 @@ namespace Labirinth
         {
             //MoveLog.Add(MoveLog.Count.ToString().PadRight(7) + NewLogMargin(moveStack.Count) +
             //    "L= " + (moveStack.Count) + " nebeturi tolesniu zingsniu. Backtrack.");
-            Console.WriteLine("".PadRight(7) + NewLogMargin(moveStack.Count) +
+            Console.WriteLine("".PadRight(7) + NewLogMargin() +
                 "Backtrack from " + CurrentPosition.ToString() + ", L=" + MoveCounter() +
                 ". LAB" + CurrentPosition.ToString() + ":= -1.");
 
-            var falsePosition = moveStack.Pop();
+            var falsePosition = moveStack.Pop().to;
             board.PlaceBacktrackToken(falsePosition);
         }
 
         private string CreateLog(Point newPosition, int manueverIndex, string appendix)
         {
             return MoveLog.Count.ToString().PadRight(7)
-                + NewLogMargin(moveStack.Count) + "R" + (manueverIndex+1) + ". "
-                + newPosition + ". L= " + moveStack.Count  + ". "
+                + NewLogMargin() + "R" + manueverIndex + ". "
+                + newPosition + ". L:= " + (moveStack.Count + 2) + ". " // TODO: refactor (moveStack.Count + 3)
                 + appendix;
         }
 
@@ -85,11 +86,24 @@ namespace Labirinth
         {
             MoveLog.Add(
                 MoveLog.Count.ToString().PadRight(7)
-                + NewLogMargin(moveStack.Count) + "R" + (manueverIndex + 1) + ". "
-                + newPosition.ToString() + ". L= " + moveStack.Count + ". "
+                + NewLogMargin() + "R" + manueverIndex + ". "
+                + newPosition.ToString() + ". L= " + MoveCounter() + ". "
                 + logAppendix
             );
             Console.WriteLine(MoveLog.Last());
+        }
+
+        public string printMoves()
+        {
+            StringBuilder printedMoves = new StringBuilder();
+
+            Move[] moves = new Move[moveStack.Count];
+            moveStack.CopyTo(moves, 0);
+            for (int i = moveStack.Count - 2; i >= 0; i--)
+            {
+                printedMoves.Append("R" + moves[i].rule + ", ");
+            }
+            return printedMoves.ToString();
         }
     }
 }

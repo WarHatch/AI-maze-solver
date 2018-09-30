@@ -53,7 +53,11 @@ namespace Labirinth
             //Stopwatch watch = Stopwatch.StartNew();
             Solve(agent, board, null);
             if (!board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y)) Console.WriteLine("[X] Unable to find a solution.");
-            else Console.WriteLine("[V] Found solution: \n" + board.Print());
+            else
+            {
+                Console.WriteLine("[V] Found solution: \n" + board.Print());
+                Console.WriteLine("Travel rules: " + agent.printMoves());
+            }
             Console.ReadKey();
         }
     }
