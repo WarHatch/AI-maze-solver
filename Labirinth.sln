@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labirinth", "Labirinth\Labirinth.csproj", "{06AAA79C-91CF-4EDE-9B16-C6A8B3FCFB70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06AAA79C-91CF-4EDE-9B16-C6A8B3FCFB70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AAA79C-91CF-4EDE-9B16-C6A8B3FCFB70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06AAA79C-91CF-4EDE-9B16-C6A8B3FCFB70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06AAA79C-91CF-4EDE-9B16-C6A8B3FCFB70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E1C9329-2FE9-4A4F-94EC-E64493ADB5F8}
+	EndGlobalSection
+EndGlobal
