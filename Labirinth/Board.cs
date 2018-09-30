@@ -38,13 +38,19 @@ namespace Labirinth
             Cells[newPosition.Y, newPosition.X] = stackCount + 1;
         }
 
+        // For maze only
+        public void PlaceBacktrackToken(Point newPosition)
+        {
+            Cells[newPosition.Y, newPosition.X] = -1;
+        }
+
         public void ResetCell(Point resetPosition)
         {
             Cells[resetPosition.Y, resetPosition.X] = 0;
         }
 
         public bool Inside(int x, int y) => (x > -1 && x < xSize && y > -1 && y < ySize);
-        public bool Edge(int x, int y) => (x == 0 || x == xSize - 1 || y == 0 && y == ySize - 1);
+        public bool Edge(int x, int y) => (x == 0 || x == xSize - 1 || y == 0 || y == ySize - 1);
 
         // Unused
         public bool AllSpacesTaken()
