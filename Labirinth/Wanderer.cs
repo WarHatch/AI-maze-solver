@@ -11,34 +11,35 @@ namespace Labirinth
         private Stack<Point> moveStack;
         private readonly Point[] manuevers = {new Point(0 , 1), new Point(1, 0), new Point(-1, 0), new Point(0, -1)};
 
-        public Wanderer(ref Board board, Point startingPosition)
+        public Wanderer(Board board, Point startingPosition)
         {
+            Board = board;
             moveStack = new Stack<Point>(board.xSize * board.ySize / 2);
 
             //MoveTo
             moveStack.Push(startingPosition);
-            board.PlaceOn(startingPosition, moveStack.Count);
+            Board.PlaceOn(startingPosition, moveStack.Count);
             Console.WriteLine("Pradine padetis: " + CurrentPosition.ToString() + ". L=" + board.Cells[startingPosition.Y, startingPosition.X]);
         }
 
         public Point CurrentPosition { get => moveStack.Peek(); }
+        public Board Board { get; }
         public List<string> MoveLog { get; } = new List<string>();
 
         private string NewLogMargin(int amount) => new string('-', moveStack.Count);
         private string MoveCounter() => (moveStack.Count + 1).ToString();
 
-        public void MoveTo(Board board, Point newPosition, int manueverIndex)
+        public void MoveTo(Point newPosition, int manueverIndex)
         {
             string appendix = "Laisva. LAB" + newPosition.ToString() + ":=" + MoveCounter();
             MoveLog.Add(CreateLog(newPosition, manueverIndex, appendix));
             Console.WriteLine(MoveLog.Last());
 
             moveStack.Push(newPosition);
-            board.PlaceOn(newPosition, moveStack.Count);
+            Board.PlaceOn(newPosition, moveStack.Count);
         }
 
-        public void Backtrack(Board board)
-        {
+        public void Backtrack(){
             //MoveLog.Add(MoveLog.Count.ToString().PadRight(7) + NewLogMargin(moveStack.Count) +
             //    "L= " + (moveStack.Count) + " nebeturi tolesniu zingsniu. Backtrack.");
             Console.WriteLine("".PadRight(7) + NewLogMargin(moveStack.Count) +
@@ -46,7 +47,7 @@ namespace Labirinth
                 ". LAB" + CurrentPosition.ToString() + ":= -1.");
 
             var falsePosition = moveStack.Pop();
-            board.PlaceBacktrackToken(falsePosition);
+            Board.PlaceOn(falsePosition, -1);
         }
 
         private string CreateLog(Point newPosition, int manueverIndex, string appendix)
@@ -57,22 +58,22 @@ namespace Labirinth
                 + appendix;
         }
 
-        public Dictionary<int, Point> GoodDestinations(Board board)
+        public Dictionary<int, Point> GoodDestinations()
         {
             Dictionary<int, Point> goodDestinations = new Dictionary<int, Point>();
 
             for (int manueverIndex = 0; manueverIndex < manuevers.Length; manueverIndex++)
             {
                 var potentialPos = CurrentPosition + manuevers[manueverIndex];
-                if (board.Inside(potentialPos.X, potentialPos.Y))
+                if (Board.Inside(potentialPos.X, potentialPos.Y))
                 {
-                    if (board.Cells[potentialPos.Y, potentialPos.X] == 0)
+                    if (Board.Cells[potentialPos.Y, potentialPos.X] == 0)
                     {
                         goodDestinations.Add(manueverIndex, potentialPos);
                     }
                     else
                     {
-                        if (board.Cells[potentialPos.Y, potentialPos.X] == 1)
+                        if (Board.Cells[potentialPos.Y, potentialPos.X] == 1)
                             FakeMove(potentialPos, manueverIndex, "Siena");
                         else
                             FakeMove(potentialPos, manueverIndex, "Siulas.");
