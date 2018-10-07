@@ -45,10 +45,10 @@ namespace Labirinth
             var falsePosition = moveStack.Pop().to;
 
             //  Classic backtracking
-            //board.PlaceOn(falsePosition, -1);
+            board.PlaceOn(falsePosition, -1);
 
             //  "Backtrack1"
-            board.PlaceBacktrackToken(falsePosition);
+            //board.PlaceBacktrackToken(falsePosition);
         }
 
         private string CreateLog(Point newPosition, int manueverIndex, string appendix)
