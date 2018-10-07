@@ -43,6 +43,11 @@ namespace Labirinth
                 ". LAB" + CurrentPosition.ToString() + ":= -1.");
 
             var falsePosition = moveStack.Pop().to;
+
+            //  Classic backtracking
+            //board.PlaceOn(falsePosition, -1);
+
+            //  "Backtrack1"
             board.PlaceBacktrackToken(falsePosition);
         }
 

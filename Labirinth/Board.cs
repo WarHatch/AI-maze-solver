@@ -74,7 +74,7 @@ namespace Labirinth
                 board.AppendFormat(y.ToString().PadLeft(3) + "|");
                 for (int x = xSize; x > 0; x--)
                 {
-                    board.AppendFormat(Cells[y-1, xSize-x].ToString().PadLeft(3));
+                    board.AppendFormat(Cells[y-1, xSize-x].ToString().PadLeft(4));
                 }
                 board.AppendLine();
             }
@@ -82,14 +82,14 @@ namespace Labirinth
             board.Append("Y".PadLeft(3) + "|");
             for (int x = 0; x < xSize; x++)
             {
-                board.Append("---");
+                board.Append("----");
             }
             board.AppendLine();
 
             board.Append("X".PadLeft(4));
             for (int x = 1; x <= xSize; x++)
             {
-                board.AppendFormat(x.ToString().PadLeft(3));
+                board.AppendFormat(x.ToString().PadLeft(4));
             }
             return board.ToString();
         }
