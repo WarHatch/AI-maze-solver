@@ -29,7 +29,7 @@ namespace Labirinth
         public void MoveTo(Board board, Point newPosition, int manueverIndex)
         {
             string appendix = "Laisva. LAB" + newPosition.ToString() + ":=" + MoveCounter();
-            MoveLog.Add(CreateLog(newPosition, manueverIndex, appendix));
+            MoveLog.Add(CreateLog(newPosition, manueverIndex + 1, appendix));
             Console.WriteLine(MoveLog.Last());
 
             moveStack.Push(new Move(newPosition, manueverIndex));
@@ -38,10 +38,8 @@ namespace Labirinth
 
         public void Backtrack(Board board)
         {
-            //MoveLog.Add(MoveLog.Count.ToString().PadRight(7) + NewLogMargin(moveStack.Count) +
-            //    "L= " + (moveStack.Count) + " nebeturi tolesniu zingsniu. Backtrack.");
             Console.WriteLine("".PadRight(7) + NewLogMargin() +
-                "Backtrack from " + CurrentPosition.ToString() + ", L=" + MoveCounter() +
+                "Backtrack from " + CurrentPosition.ToString() + ", L:=" + moveStack.Count +
                 ". LAB" + CurrentPosition.ToString() + ":= -1.");
 
             var falsePosition = moveStack.Pop().to;
@@ -51,8 +49,8 @@ namespace Labirinth
         private string CreateLog(Point newPosition, int manueverIndex, string appendix)
         {
             return MoveLog.Count.ToString().PadRight(7)
-                + NewLogMargin() + "R" + manueverIndex + ". "
-                + newPosition + ". L:= " + (moveStack.Count + 2) + ". " // TODO: refactor (moveStack.Count + 3)
+                + NewLogMargin() + "R" + (manueverIndex + 1) + ". "
+                + newPosition + ". L:= " + (moveStack.Count + 2) + ". "
                 + appendix;
         }
 
@@ -86,7 +84,7 @@ namespace Labirinth
         {
             MoveLog.Add(
                 MoveLog.Count.ToString().PadRight(7)
-                + NewLogMargin() + "R" + manueverIndex + ". "
+                + NewLogMargin() + "R" + (manueverIndex + 1) + ". "
                 + newPosition.ToString() + ". L= " + MoveCounter() + ". "
                 + logAppendix
             );

@@ -55,9 +55,9 @@ namespace Labirinth
             if (!board.Edge(agent.CurrentPosition.X, agent.CurrentPosition.Y)) Console.WriteLine("[X] Unable to find a solution.");
             else
             {
-                Console.WriteLine("[V] Found solution: \n" + board.Print());
-                Console.WriteLine("Travel rules: " + agent.PrintTravelRules());
-                Console.WriteLine("Travel points: " + agent.PrintTravelPoints());
+                Console.WriteLine("\n[V] Travel map: \n" + board.Print());
+                Console.WriteLine("\nTravel rules: " + agent.PrintTravelRules());
+                Console.WriteLine("\nTravel points: " + agent.PrintTravelPoints());
             }
             Console.ReadKey();
         }
